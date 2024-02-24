@@ -1,5 +1,5 @@
 FROM python:3.9
- 
+ENV ALGORITHM=RS256
 WORKDIR /code
 
 COPY ./requirements.txt /code/requirements.txt

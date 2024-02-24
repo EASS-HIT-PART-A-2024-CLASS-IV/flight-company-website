@@ -1,5 +1,8 @@
 FROM python:3.9
- 
+
+ENV ACCESS_TOKEN_EXPIRE_MINUTES=15
+ENV REFRESH_TOKEN_EXPIRE_DAYS=3
+ENV ALGORITHM=RS256
 WORKDIR /code
 
 COPY ./requirements.txt /code/requirements.txt

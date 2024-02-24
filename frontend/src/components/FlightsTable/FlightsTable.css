@@ -1,0 +1,7 @@
+.flight-row .rdt_TableHeadRow{
+    border-bottom: 0px !important;
+}
+
+.flight-row .rdt_TableCell,.flight-row .rdt_TableCol_Sortable{
+    justify-content: space-evenly;
+}

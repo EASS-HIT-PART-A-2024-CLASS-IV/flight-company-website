@@ -1,4 +1,4 @@
-import axios from "axios";
+import BaseService from "api/baseService";
 import config from "config";
 
 export class Country {
@@ -6,23 +6,30 @@ export class Country {
     code: string = "";
 }
 
-export default class CountriesService {
-    private baseUrl: string;
+export default class CountriesService extends BaseService{
+    private countries:Country[] = [];
     constructor() {
-        this.baseUrl = config.COUNTRIES_HTTP
+        super("CountriesService",config.COUNTRIES_HTTP);        
     }
-    getCountriesList(): Promise<Country[]> {
-        return axios.get<Country[]>(`${this.baseUrl}/countries`)
+    public async getCountriesList(): Promise<Country[]> {
+        try{
+            if(this.countries.length !== 0) return this.countries;
+            this.countries = await this.axios.get<Country[]>("/countries").then(response => response.data); 
+            return this.countries;
+        }catch(err){
+            this.handleHttpError(err);
+            return [];
+        }
+            
+    }
+
+    public async getCountryByCode(code:string):Promise<Country>{
+        return this.axios.get<Country>(`/countries/code/${code}`)
             .then(response => response.data)
     }
 
-    getCountryByCode(code:string):Promise<Country>{
-        return axios.get<Country>(`${this.baseUrl}/countries/code/${code}`)
-            .then(response => response.data)
-    }
-    
-    getCountryByName(name:string):Promise<Country>{
-        return axios.get<Country>(`${this.baseUrl}/countries/name/${name}`)
+    public async getCountryByName(name:string):Promise<Country>{
+        return this.axios.get<Country>(`/countries/name/${name}`)
         .then(response => response.data)
     }
 }

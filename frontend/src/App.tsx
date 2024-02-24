@@ -1,17 +1,12 @@
-import React, { useState } from "react";
-import "./App.css";
-import ServiceInjector from "api/service.injector";
-import { Country } from "api/contries-service";
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+import AppRoutes from "routes";
 
 function App() {
-  const countriesService = ServiceInjector.countriesService;
-  const [countries, setContries] = useState<Country[]>([]);
-  countriesService.getCountriesList().then((data: Country[]) => {
-    console.log(data);
-
-    setContries(data);
-  });
-  return <div className="App">{JSON.stringify(countries)}</div>;
+  return <AppRoutes></AppRoutes>;
 }
 
 export default App;

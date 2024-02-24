@@ -10,7 +10,7 @@ import sys
 app = FastAPI()
 
 origins = [
-    'http://localhost:3000'
+    '*'
 ]
 
 app.add_middleware(
@@ -45,7 +45,7 @@ def get_country_by_name(country_name: str):
         raise HTTPException(status_code=404, detail="Country not found")
     return country
 
-@app.get("/countries/", response_model=List[dict])
+@app.get("/countries", response_model=List[dict])
 def get_countries():
     return countries
 

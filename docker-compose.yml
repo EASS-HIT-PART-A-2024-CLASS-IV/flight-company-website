@@ -13,47 +13,56 @@ services:
     container_name: flight-service
     build: ./flight-service
     restart: always
-    environment:
-      - MONGO_URL=mongodb://mongodb:27017/
+    depends_on:
+      - auth
     ports:
       - "8080:80"
     env_file:
       - services.env
+    volumes:
+      - ./auth-service/keys/:/code/keys/
 
   payment:
     container_name: payment-service
     build: ./payment-service
     restart: always
-    environment:
-      - MONGO_URL=mongodb://mongodb:27017/
+    depends_on:
+      - auth
     ports:
       - "8090:80"
     env_file:
       - services.env
-
-  push:
-    container_name: push-service
-    build: ./push-service
-    restart: always
-    ports:
-      - "8100:80"
-    env_file:
-      - services.env
+    volumes:
+      - ./auth-service/keys/:/code/keys/
 
   countries:
     container_name: countries-service
     build: ./countries-service
     restart: always
+    depends_on:
+      - auth
     ports:
       - "8110:80"
     env_file:
       - services.env
+    volumes:
+      - ./auth-service/keys/:/code/keys/
+
+  auth:
+    container_name: auth-service
+    build: ./auth-service
+    ports:
+      - "8120:80"
+    env_file:
+      - services.env
+    volumes:
+      - ./auth-service/keys:/code/keys
 
   mongodb:
     container_name: mongodb
     image: mongo:latest
     restart: always
     volumes:
-      - /mongo/data:/data/db
+      - ./mongo/data:/data/db
     ports:
       - "27017:27017"
