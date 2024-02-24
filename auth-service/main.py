@@ -10,7 +10,7 @@ import os
 app = FastAPI()
 
 origins = [
-    'http://localhost:3000'
+    '*'
 ]
 
 # Generate keys if they don't exist
